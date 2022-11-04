@@ -7,7 +7,7 @@
           <div class="bg-dark p-4">
 
             <li class="nav-item">
-              <router-link to="/inicio">
+              <router-link to="/">
                 <a id="style" align="center" class="nav-link" href="#">Inicio</a>
               </router-link>
             </li>
@@ -20,10 +20,11 @@
               </li>
 
               <li class="nav-item">
-                <router-link to="/usuarios-mockApi">
-                  <a id="style" class="nav-link" href="#">Lista de Usuarios</a>
+                <router-link to="/respuestas">
+                  <a id="style" class="nav-link" href="#">Respuestas</a>
                 </router-link>
               </li>
+
             </ul>
           </div>
         </div>

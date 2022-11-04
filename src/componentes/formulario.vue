@@ -4,7 +4,7 @@
     <div class="jumbotron">
 
       <div id="jumbotron2" class="jumbotron">
-        <h1>Formulario de Usuarios</h1>
+        <h1>Formulario de Gastos</h1>
         <hr><br>
         <div id="jumbotron3" class="jumbotron">
 
@@ -13,12 +13,12 @@
             <validate tag="div">
 
               <label for="nombre">Nombre</label>
-              <input type="text" id="nombre" class="form-control" autocomplete="off" v-model.trim="Datos.nombre"
-                name="nombre" required :minlength="nombreMinLength" :maxlength="nombreMaxLength" no-espacios>
+              <input type="text" id="nombre" class="form-control" autocomplete="off" v-model.trim="formData.nombre"
+                name="nombre" required :minlength="nombreMinLength" :maxlength="nombreMaxLength" no-espacios >
 
               <!-- VALIDACIONES -->
               <field-messages name="nombre" show="$dirty">
-                <div lass="font">Bienvenido/a {{ Datos.nombre }}</div>
+                <div lass="font">Bienvenido/a {{ formData.nombre }}</div>
                 <div slot="required" class="alert alert-danger mt-1">Campo Nombre requerido</div>
                 <div slot="minlength" class="alert alert-warning mt-1">Este campo debe poseer al menos {{
                     nombreMinLength
@@ -30,61 +30,97 @@
 
             </validate><br>
             <hr>
-
+            
+            
+            <validate tag="div">
+            
+              <label for="descripcion">Descripcion</label>
+              <input type="text" id="descripcion" class="form-control" autocomplete="off" v-model.trim="formData.descripcion" name="descripcion"
+                required>
+              <!-- VALIDACIONES -->
+              <field-messages name="descripcion" show="$dirty">
+                <div class="font">descripcion confirmada</div>
+                <div slot="required" class="alert alert-danger mt-1">Campo descripcion requerido</div>
+                <div slot="descripcion" class="alert alert-danger mt-1">descripcion no valido</div>
+              </field-messages>
+            
+            </validate><br>
 
             <validate tag="div">
 
-              <label for="edad">Edad</label>
-              <input type="number" id="edad" class="form-control" autocomplete="off" v-model.number="Datos.edad"
-                name="edad" required :min="edadMin" :max="edadMax">
+              <label for="importe">Importe</label>
+              <input type="number" id="importe" class="form-control" autocomplete="off" v-model.number="formData.importe"
+                name="importe" required :min="importeMin">
               <!-- VALIDACIONES -->
-              <field-messages name="edad" show="$dirty">
-                <div class="font">Edad confirmada</div>
-                <div slot="required" class="alert alert-danger mt-1">Campo edad requerido</div>
-                <div slot="min" class="alert alert-warning mt-1">La edad minima debe ser {{ edadMin }} años.</div>
-                <div slot="max" class="alert alert-warning mt-1">La edad maxima debe ser {{ edadMax }} años.</div>
+              <field-messages name="importe" show="$dirty">
+                <div class="font">importe confirmado</div>
+                <div slot="required" class="alert alert-danger mt-1">Campo importe requerido</div>
+                <div slot="min" class="alert alert-warning mt-1">El importe debe ser mayor a {{ importeMin }}</div>
               </field-messages>
 
             </validate><br>
             <hr>
 
-
-            <validate tag="div">
-
-              <label for="email">Email</label>
-              <input type="email" id="email" class="form-control" autocomplete="off" v-model.trim="Datos.email"
-                name="email" required>
-              <!-- VALIDACIONES -->
-              <field-messages name="email" show="$dirty">
-                <div class="font">Acceso concedido</div>
-                <div slot="required" class="alert alert-danger mt-1">Campo email requerido</div>
-                <div slot="email" class="alert alert-danger mt-1">Email no valido</div>
-              </field-messages>
-
-            </validate><br>
-
-            <button class="btn btn-success my-3" :disabled="formState.$invalid">Enviar</button>
+            <button class="btn btn-success my-3" :disabled="formState.$invalid" >Enviar</button>
           </vue-form>
         </div>
       </div>
+      
+        <!--      TABLA SUBMIT        -->
+        <!--                            -->
+        
+        <h1>Detalle de Gastos</h1>
+        <div v-if="datos" class="table-responsive">
+          <label class="c" for="presupuesto">Presupuesto</label>
+          <input type="number" id="presupuesto" class="form-control" autocomplete="off" v-model.number="formData.presupuesto"
+            name="presupuesto"><br><hr>
 
-
-      <div class="table-responsive">
-        <table class="table table-dark">
-          <tr>
-            <th>Nombre</th>
-            <th>Edad</th>
-            <th>Email</th>
-          </tr>
-
-          <td v-if="!Datos.nombre">-</td><td v-else>{{Datos.nombre}}</td>
-          <td v-if="!Datos.edad">-</td><td v-else-if="Datos.edad < 120 && Datos.edad >5">{{ Datos.edad }}</td><td v-else>Edad fuera de rango</td>
-          <td v-if="!Datos.email">-</td><td>{{ Datos.email }}</td>
-
-        </table>
-      </div>
-    </div>
-  </section>
+          <table class="table table-dark">
+            <tr>
+              <th>Nombre</th>
+              <th>Descripcion</th>
+              <th>Importe</th>
+              <th>Fecha</th>
+        
+            </tr>
+        
+            <tr v-for="(dato, index) in datos" v-bind:key="index">
+              <td v-if="!dato.nombre">-</td>
+              <td v-else>{{ dato.nombre }}</td>
+              <td>{{dato.descripcion}}</td>
+              <td>{{dato.importe}}</td>
+              <td v-if="!dato.fecha">-</td>
+              <td>{{ dato.fecha }}</td>
+            </tr>
+        
+            <tr v-if=" this.total <= formData.presupuesto">
+              <td></td>
+              <td :style="{ color: this.calcularColor().color }">
+                TOTAL
+                </td>
+                <td :style="{ color: this.calcularColor().color }">$ {{ this.total }}</td>
+                <td></td>
+                </tr>
+                <tr v-else>
+                  <td></td>
+                  <td :style="{ color: presupuestoColor} ">
+                    TOTAL: 
+                  </td>
+                  <td :style="{ color: presupuestoColor} "> $ {{ this.total }}</td>
+                  <td></td>
+                </tr>
+                
+                
+                </table>
+        </div>
+        
+        <div class="jumbotron">
+        
+        </div>
+        
+        
+        </div>
+        </section>
 </template>
 
 <script >
@@ -97,39 +133,68 @@ export default {
   },
   data() {
     return {
-      hayDatos: this.datos.nombre,
+      total: 0,
       formState: {},
-      Datos: this.datos(),
-      nombreMinLength: 5,
+      formData: this.datosIniciales(),
+      datos: [],
+      nombreMinLength: 3,
       nombreMaxLength: 15,
-      edadMin: 18,
-      edadMax: 120,
+      importeMin: 0,
+      presupuestoColor: "#FF0000",
+      color: 'red',
+      presupuesto: 0,
+
+      
     }
   },
   methods: {
-    datos() {
+    datosIniciales() {
       return {
         nombre: null,
-        edad: null,
-        email: null,
+        descripcion: null,
+        importe: null,
+        fecha: null,
       }
     },
 
     enviar() {
-      this.Datos = this.datos()
+
+      let aux = {...this.formData};
+      this.total+= aux.importe;
+
+      aux.fecha = new Date().toLocaleString();
+      aux.importe = "$" + aux.importe.toLocaleString();
+      
+
+      this.datos.push(aux)
+      this.formData = this.datosIniciales()
       this.formState._reset();
-    }
+    },
+
+
+    calcularColor() {
+      let color 
+      let total = this.total
+    
+
+     if(total < 1000){
+        color = 'green'
+      }else if(total < 5000)
+      {
+        color = 'magenta'
+      }
+      else if(total > 5000){
+        color = 'orange'
+      }
+        return {
+          color}
+      },
+
   },
   computed: {
-    getNombre() {
-      return this.datos.nombre;
-    },
-    getEdad() {
-      return this.datos.edad;
-    },
-    getEmail() {
-      return this.datos.email;
-    }
+
+
+     
   }
 }
 
@@ -143,6 +208,7 @@ export default {
   font-size: 1.3rem;
   color: rgb(68, 6, 6);
   background-color: rgba(250, 235, 215, 0.932);
+  
 }
 
 hr {
@@ -159,10 +225,17 @@ td {
   font-size: large;
   text-align: center;
   background-color: rgb(68, 6, 6);
+  
   padding-bottom: 1.8rem;
 }
 
 th {
   text-align: center;
 }
+
+.total{
+  font-size: larger;
+background-color: rgba(255, 255, 255, 0.705);
+}
+
 </style>

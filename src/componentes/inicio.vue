@@ -2,18 +2,29 @@
 
   <section class="src-componentes-inicio">
     <div class="jumbotron">
-    <H4>Proyecto TP 4 </H4><hr>
-    <P>1) Un formulario basado en vue-form que contenga 3 campos: nombre, edad e email. Este debe
-      tener validaciones mediante carteles de: campos requeridos, nombre entre 5 y 15 caracteres, edad
-      entre 18 y 120 años e email válido. Los datos válidos ingresados por el formulario, se deben
-      representar en un tabla por debajo del mismo, en el mismo momento del ingreso.
+    <H4>Proyecto Parcial </H4><hr>
+    <P>El formulario contendrá el nombre de quién realizó el gasto, la descripción y el
+      importe. Cada campo será obligatorio, el campo nombre debe aceptar entre 3 y 15
+      caracteres, sin espacios por delante ni por detrás ó intermedios. El campo importe
+      debe ser numérico. Presentar los carteles de error de validación debajo de cada
+      campo.
     </P>
     <p>
-      2) Realizar un componente que pida los objetos almacenados en un recurso de mockapi.io llamado
-      usuarios, que contengan datos aleatorios con las claves: nombre, email y número de teléfono. Se
-      representarán en una tabla en la vista.
+      La tabla representará el detalle de los gastos almacenados por el formulario. Cada
+      fila de la tabla mostrará la persona que realizó el gasto, la descripción, el importe y la
+      fecha de creación del gasto en formato dd/mm/yyyy h:mm:ss. Para el importe,
+      agregar un $ delante del valor.
     </p><br>
-    <p align="center">XMLHttpRequest, fetch y axios.</p><p>Agustin Ortega</p>
+    <p>
+      Agregar una fila adicional en la tabla, al final, que mostrará el gasto total calculado
+      automáticamente. Si el gasto total es inferior a $1000 representarlo en verde, de
+      $1000 a $5000 en magenta y por encima de los $5000 en naranja.
+      Extra (opcional): incluir un input, en la vista de gastos, por encima de la tabla,
+      donde me permita ingresar el presupuesto que tengo asignado, y si sólo el gasto total
+      supera al presupuesto me lo marque en rojo.
+    
+    </p>
+    <p>Agustin Ortega</p>
     </div>
   </section>
 
